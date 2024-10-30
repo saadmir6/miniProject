@@ -1,0 +1,9 @@
+<h2>Tasks for {{ request.user.subteam.name }}</h2>
+<ul>
+    {% for task in tasks %}
+        <li>
+            <strong>{{ task.description }}</strong> - {{ task.get_status_display }}
+            <a href="{% url 'edit_task' task.id %}">Edit</a>
+        </li>
+    {% endfor %}
+</ul>

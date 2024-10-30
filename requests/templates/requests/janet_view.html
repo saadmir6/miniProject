@@ -1,0 +1,28 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Janet's Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Pending Requests</h1>
+    
+    <ul class="list-group">
+        {% for request in requests %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ request }} 
+                <div>
+                    <form action="{% url 'reject_request' request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                    <form action="{% url 'forward_request' request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Send Forward</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

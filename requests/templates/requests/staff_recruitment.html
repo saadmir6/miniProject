@@ -1,0 +1,49 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Staff Recruitment{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Staff Recruitment Request</h1>
+
+    <form method="POST" action="{% url 'staff_recruitment' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Recruitment Request</button>
+    </form>
+
+    <h2 class="my-4">Recruitment Requests</h2>
+    {% for recruitment in recruitments %}
+        <div class="card mb-3 p-3">
+            <p><strong>Number of Recruits:</strong> {{ recruitment.number_of_recruits }}</p>
+            <p><strong>Additional Info:</strong> {{ recruitment.additional_info }}</p>
+            <p><strong>Status:</strong>
+                {% if recruitment.sent_to_production %}
+                    <span class="text-success">Sent to Production Manager</span>
+                {% elif recruitment.rejected %}
+                    <span class="text-danger">Rejected</span>
+                {% elif recruitment.sent_to_hr %}
+                    <span class="text-warning">Sent to HR</span>
+                {% else %}
+                    <span class="text-muted">Pending</span>
+                {% endif %}
+            </p>
+
+            <div>
+                <form method="POST" action="{% url 'send_recruitment_to_production' recruitment.pk %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">Send to Production Manager</button>
+                </form>
+
+                <form method="POST" action="{% url 'reject_recruitment' recruitment.pk %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

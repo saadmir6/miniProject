@@ -1,0 +1,23 @@
+<!-- assign_task.html -->
+{% extends 'requests/base.html' %}
+
+{% block title %}Assign Task{% endblock %}
+
+{% block content %}
+<h2 class="my-4">Assign Task</h2>
+<form method="post" class="needs-validation">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="description" class="form-label">Task Description:</label>
+        {{ form.description }}
+    </div>
+    
+    <div class="mb-3">
+        <label for="subteam" class="form-label">Select Subteam:</label>
+        {{ form.subteam }}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Assign Task</button>
+</form>
+{% endblock %}

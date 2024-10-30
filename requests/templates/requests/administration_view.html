@@ -1,0 +1,31 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Administration Manager's Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Requests for Approval</h1>
+    
+    <ul class="list-group">
+        {% for request in requests %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ request }}
+                <div>
+                    <form action="{% url 'reject_request_admin' request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                    <form action="{% url 'schedule_meeting' request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="datetime-local" name="meeting_time" required class="form-control form-control-sm d-inline" style="width: auto; display: inline-block;">
+                        <button type="submit" class="btn btn-primary btn-sm">Schedule Meeting</button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No requests forwarded by finance.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

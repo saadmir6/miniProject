@@ -1,0 +1,57 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Production Manager Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Production Manager Dashboard</h1>
+
+    <h2 class="my-4">Edited Tasks</h2>
+    {% if tasks %}
+        <ul class="list-group">
+            {% for task in tasks %}
+                <li class="list-group-item">
+                    <strong>Task Description:</strong> {{ task.description }} <br>
+                    <strong>Status:</strong> {{ task.get_status_display }} <br>
+                    <strong>Comments:</strong> {{ task.comments }} <br>
+                    <strong>Extra Budget Needed:</strong> {{ task.extra_budget_needed }} <br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info mt-2">No tasks have been sent to production yet.</div>
+    {% endif %}
+
+    <h2 class="my-4">Forwarded Recruitment Requests</h2>
+    {% if recruitments %}
+        <ul class="list-group">
+            {% for recruitment in recruitments %}
+                <li class="list-group-item">
+                    <strong>Number of Recruits:</strong> {{ recruitment.number_of_recruits }} <br>
+                    <strong>Additional Info:</strong> {{ recruitment.additional_info }} <br>
+                    <strong>Requested on:</strong> {{ recruitment.created_at|date:"Y-m-d" }} <br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info mt-2">No recruitment requests have been sent to production yet.</div>
+    {% endif %}
+
+    <h2 class="my-4">Forwarded Budget Increase Requests</h2>
+    {% if budget_requests %}
+        <ul class="list-group">
+            {% for budget_request in budget_requests %}
+                <li class="list-group-item">
+                    <strong>Amount Requested:</strong> {{ budget_request.amount }} <br>
+                    <strong>Requested By:</strong> {{ budget_request.title }} <br>
+                    <strong>Reason:</strong> {{ budget_request.description }} <br>
+                    <strong>Requested on:</strong> {{ budget_request.created_at|date:"Y-m-d" }} <br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info mt-2">No budget increase requests have been sent to production yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Submit Request{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Submit Your Request</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }} 
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

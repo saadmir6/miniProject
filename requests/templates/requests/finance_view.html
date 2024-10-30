@@ -1,0 +1,48 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Financial Manager's Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Requests for Review</h1>
+
+    <!-- Section for Client Requests -->
+    <h2 class="mt-4">Client Requests</h2>
+    <ul class="list-group">
+        {% for request in requests %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ request }}  <!-- This will display each request based on the __str__ method of ClientRequest -->
+                <form action="{% url 'forward_to_admin' request.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm">Send to Administration</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No pending client requests.</li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="mt-4">Budget Increase Requests</h2>
+    <ul class="list-group">
+        {% for budget_request in budget_request %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ budget_request }}
+                <div>
+                    <form action="{% url 'send_budget_request_to_production' budget_request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                    <form action="{% url 'reject_budget_request' budget_request.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No pending budget requests.</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

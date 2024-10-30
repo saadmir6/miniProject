@@ -1,0 +1,11 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Request Submitted{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your request has been submitted successfully!</h1>
+    <a href="{% url 'submit_request' %}" class="btn btn-primary">Submit another request</a>
+</div>
+{% endblock %}

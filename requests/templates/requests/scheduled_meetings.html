@@ -1,0 +1,32 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Scheduled Meetings{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Scheduled Meetings</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Client Name</th>
+                <th>Event Type</th>
+                <th>Scheduled Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meeting in meetings %}
+            <tr>
+                <td>{{ meeting.request.client_name }}</td>
+                <td>{{ meeting.request.event_type }}</td>
+                <td>{{ meeting.scheduled_time }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No scheduled meetings available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

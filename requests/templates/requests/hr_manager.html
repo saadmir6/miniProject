@@ -1,0 +1,38 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}HR Manager - Recruitment Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">HR Manager - Recruitment Requests</h1>
+    
+    {% if recruitments %}
+        <ul class="list-group">
+            {% for recruitment in recruitments %}
+                <li class="list-group-item">
+                    <strong>Number of Recruits:</strong> {{ recruitment.number_of_recruits }} <br>
+                    <strong>Additional Notes:</strong> {{ recruitment.additional_info }} <br>
+                    <strong>Requested on:</strong> {{ recruitment.created_at|date:"Y-m-d" }} <br>
+
+                    <div class="mt-2">
+                        <!-- Button to send the recruitment request to production -->
+                        <form action="{% url 'send_recruitment_to_production_from_hr' recruitment.pk %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Send to Production</button>
+                        </form>
+                        
+                        <!-- Button to reject the recruitment request -->
+                        <form action="{% url 'reject_recruitment_hr' recruitment.pk %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info mt-3">No recruitment requests available.</div>
+    {% endif %}
+</div>
+{% endblock %}

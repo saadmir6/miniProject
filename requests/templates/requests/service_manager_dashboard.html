@@ -1,0 +1,17 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}SM Dashboard{% endblock %}
+
+{% block content %}
+<body class="bg-light">
+    <div class="container text-center py-5">
+        <h1 class="mb-4">Service Manager Dashboard</h1>
+        <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-primary" onclick="location.href='{% url 'assign_task' %}'">Sub-Teams</button>
+            <button class="btn btn-secondary" onclick="location.href='{% url 'staff_recruitment' %}'">HR</button>
+            <button class="btn btn-success" onclick="location.href='{% url 'budget_increase_request' %}'">Financial Manager</button>
+        </div>
+    </div>
+</body>
+{% endblock %}

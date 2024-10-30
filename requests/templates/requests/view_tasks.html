@@ -1,0 +1,58 @@
+
+{% extends 'requests/base.html' %}
+
+{% block title %}Assigned Tasks{% endblock %}
+
+{% block content %}
+<h2 class="my-4">Assigned Tasks</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Subteam</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Comments</th>
+            <th>Extra Budget Needed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.get_subteam_display }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.get_status_display }}</td>
+            
+            <!-- Comments field with an inline form -->
+            <td>
+                <form method="post" action="{% url 'edit_task_comments' task.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <input type="text" name="comments" value="{{ task.comments }}" class="form-control" required>
+                    <button type="submit" class="btn btn-sm btn-primary mt-1">Update</button>
+                </form>
+            </td>
+            
+            <!-- Extra budget selection with an inline form -->
+            <td>
+                <form method="post" action="{% url 'edit_task_budget' task.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <select name="extra_budget_needed" class="form-select" required>
+                        <option value="True" {% if task.extra_budget_needed %}selected{% endif %}>Yes</option>
+                        <option value="False" {% if not task.extra_budget_needed %}selected{% endif %}>No</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary mt-1">Update</button>
+                </form>
+            </td>
+            
+            <!-- Send button to send the task to the production manager -->
+            <td>
+                <form method="post" action="{% url 'send_task_to_production' task.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-success">Send</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
